@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 
 import {
-  View,
+  ViewPropTypes,
   TouchableHighlight,
   Text,
   StyleSheet,
@@ -13,8 +13,9 @@ import {
   TextInput,
   Switch,
   Image,
-  ViewPropTypes
 } from 'react-native';
+import { View } from 'native-base';
+import { justifyContent } from 'styled-system';
 
 const ARROW_ICON = require('./img/icon-arrow-settings.png');
 
@@ -231,6 +232,22 @@ class SettingsList extends React.Component {
   }
 
   itemArrowIcon(item) {
+    if(item.navIcon){
+      if(item.arrowIcon) {
+        return <View style={{flexDirection: 'row'}}>
+      {item.navIcon}
+      {item.arrowIcon}
+      </View>;
+    } else if(item.hasNavArrow){
+      return <View style={{flexDirection:'row'}}>
+      {item.navIcon}
+      <Image style={[styles.rightSide, item.arrowStyle]} source={ARROW_ICON} />
+      </View>;
+  }
+
+    return <View>{item.navIcon}</View>
+    }
+
     if(item.arrowIcon) {
         return item.arrowIcon;
     }
@@ -253,7 +270,8 @@ const styles = StyleSheet.create({
   titleBox: {
     flex:1,
     marginLeft:15,
-    flexDirection:'row'
+    flexDirection:'row',
+    alignItems:'center'
   },
   titleText: {
     flex:1,
@@ -357,6 +375,7 @@ SettingsList.Item = createReactClass({
      */
     hasNavArrow: PropTypes.bool,
     arrowIcon: PropTypes.node,
+    navIcon: PropTypes.node,
 
     arrowStyle: Image.propTypes.style,
     /**
