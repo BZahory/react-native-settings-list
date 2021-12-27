@@ -14,7 +14,7 @@ import {
   Switch,
   Image,
 } from 'react-native';
-import { View } from 'native-base';
+import { View, VStack } from 'native-base';
 import { justifyContent } from 'styled-system';
 
 const ARROW_ICON = require('./img/icon-arrow-settings.png');
@@ -180,6 +180,7 @@ class SettingsList extends React.Component {
 
     return (
       <TouchableHighlight accessible={false} key={'item_' + index} underlayColor={item.underlayColor ? item.underlayColor : this.props.underlayColor} onPress={item.onPress} onLongPress={item.onLongPress} ref={item.itemRef}>
+      <VStack>
         <View style={item.itemBoxStyle ? item.itemBoxStyle : [styles.itemBox, {backgroundColor: item.backgroundColor ? item.backgroundColor : this.props.backgroundColor}]}>
           {item.icon}
           {item.isAuth ?
@@ -227,6 +228,8 @@ class SettingsList extends React.Component {
           </View>
         }
         </View>
+        {item.subtitle}
+        </VStack>
       </TouchableHighlight>
     )
   }
@@ -321,6 +324,10 @@ SettingsList.Item = createReactClass({
      */
     title: PropTypes.string,
     titleStyle: Text.propTypes.style,
+    /**
+     * Subtitle being displayed
+     */
+     subtitle: PropTypes.node,
     /**
      * Icon displayed on the left of the settings item
      */
